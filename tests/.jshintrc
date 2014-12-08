@@ -1,0 +1,20 @@
+{
+	"indent": 2,
+	"asi": true,
+	"quotmark": "single",
+	"camelcase": true,
+	"noarg": true,
+	"undef": true,
+	"unused": true,
+	"maxlen": 100,
+	"node": true,
+	"shadow": true,
+	"predef": [
+		"describe",
+		"xdescribe",
+		"it",
+		"xit",
+		"beforeEach",
+		"afterEach"
+	]
+}

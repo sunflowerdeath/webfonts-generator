@@ -1,0 +1,12 @@
+{
+	"indent": 2,
+	"asi": true,
+	"quotmark": "single",
+	"camelcase": true,
+	"noarg": true,
+	"undef": true,
+	"unused": true,
+	"maxlen": 100,
+	"node": true,
+	"shadow": true
+}
