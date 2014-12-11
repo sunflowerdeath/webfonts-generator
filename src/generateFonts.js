@@ -1,3 +1,4 @@
+/** @flow */
 var fs = require('fs')
 var path = require('path')
 var _ = require('underscore')
@@ -12,7 +13,7 @@ var ttf2eot = require('ttf2eot')
 var generators = {
 	svg: {
 		fn: function(options, done) {
-			var font = new Buffer()
+			var font = new Buffer(0)
 			var svgOptions = _.pick(options,
 			 'fontName', 'fontHeight', 'descent', 'normalize', 'round'
 			)
@@ -31,7 +32,7 @@ var generators = {
 					font = Buffer.concat([font, data])
 				})
 				.on('end', function() {
-					done(font)
+					done(null, font.toString())
 				})
 		}
 	},
@@ -41,7 +42,7 @@ var generators = {
 		fn: function(options, svgFont, done) {
 			var font = svg2ttf(svgFont)
 			font = new Buffer(font.buffer)
-			done(font)
+			done(null, font)
 		}
 	},
 
@@ -50,7 +51,7 @@ var generators = {
 		fn: function(options, ttfFont, done) {
 			var font = ttf2woff(new Uint8Array(ttfFont))
 			font = new Buffer(font.buffer)
-			done(font)
+			done(null, font)
 		}
 	},
 
@@ -59,7 +60,7 @@ var generators = {
 		fn: function(options, ttfFont, done) {
 			var font = ttf2eot(new Uint8Array(ttfFont))
 			font = new Buffer(font.buffer)
-			done(font)
+			done(null, font)
 		}
 	}
 }
@@ -73,7 +74,7 @@ var generateFonts = function(options, done) {
 		var gen = generators[type]
 		var depsTasks = _.map(gen.deps, makeGenTask)
 		var task = Q.all(depsTasks).then(function(depsFonts) {
-			var args = depsFonts.unshift(options)
+			var args = [options].concat(depsFonts)
 			return Q.nfapply(gen.fn, args)
 		})
 		genTasks[type] = task
@@ -98,7 +99,14 @@ var generateFonts = function(options, done) {
 		makeWriteTask(genTask, type)
 	}
 
-	Q.all(writeTasks).then(done)
+	Q.all(writeTasks)
+		.then(function() {
+			done(null)
+		})
+		.fail(function(err) {
+			console.log('ERR', err)
+			done(err)
+		})
 }
 
 module.exports = generateFonts

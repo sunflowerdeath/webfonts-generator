@@ -8,13 +8,21 @@ var generateFonts = require('../src/generateFonts')
 describe('generateFonts', function() {
 	var DIR = path.join(__dirname, 'generateFontsTest')
 	var SRC = path.join(DIR, 'src')
+	var DEST = path.join(DIR, 'dest')
+
 	var FILES = _.map(fs.readdirSync(SRC), function(file) {
 		return path.join(SRC, file)
 	})
-	var DEST = path.join(DIR, 'dest')
+	var NAMES = _.map(FILES, path.basename)
+	var startCodepoint = 0xF101
+	var CODEPOINTS = _.object(_.map(NAMES, function(name) {
+		return [name, startCodepoint++]
+	}))
 
 	afterEach(function() {
-		var files = fs.readdirSync(DEST)
+		var files = _.map(fs.readdirSync(DEST), function(file) {
+			return path.join(DEST, file)
+		})
 		for (var i in files) {
 			fs.unlinkSync(files[i])
 		}
@@ -26,12 +34,18 @@ describe('generateFonts', function() {
 	it('generates font files', function(done) {
 		var OPTIONS = {
 			files: FILES,
+			names: NAMES,
+			codepoints: CODEPOINTS,
 			dest: DEST,
 			types: TYPES,
 			fontName: FONT_NAME
 		}
 
-		generateFonts(OPTIONS, function() {
+		generateFonts(OPTIONS, function(err) {
+			if (err) {
+				done(err)
+			}
+
 			//files of all types exists and are not empty
 			var destFiles = fs.readdirSync(DEST)
 			for (var i in TYPES) {

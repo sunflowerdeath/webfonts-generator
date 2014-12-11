@@ -7,9 +7,8 @@ var mkdirp = require('mkdirp')
 var generateFonts = require('generateFonts')
 
 var DEFAULT_OPTIONS = {
-	rename: function(file) {
-		return path.basename(file)
-	},
+	rename: path.basename,
+
 	/**
 	 * Unicode Private Use Area start.
 	 * http://en.wikipedia.org/wiki/Private_Use_(Unicode)
@@ -19,7 +18,7 @@ var DEFAULT_OPTIONS = {
 	fontName: 'iconfont',
  	
 	//TODO
-	relativeFontPath: '../images',
+	relativeFontPath: '../images', //template data?
 	hashes: false
 }
 
