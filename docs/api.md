@@ -1,64 +1,110 @@
 #API
 
-##iconfont(options, done)
+##generate(options, done)
 
 List of options:
 
 ###files
 
-List of SVG files.
+*required*
 
 Type: `array.<string>`
 
+List of SVG files.
+
 ###dest
+
+*required*
+
+Type: `string`
 
 Directory for generated font files.
 
+###fontName
+
 Type: `string`
+<br>
+Default: `'iconfont'`
+
+Name of font and base name of font files.
 
 ###destCss
 
-Path for generated css file.
-
 Type: `string`
+<br>
+Default: `path.join(options.dest, options.fontName + '.css')`
+
+Path for generated CSS file.
 
 ###cssTemplate
 
-Path of css template.
+Type: `string`
+<br>
+Default: `templates/css.hbs`
+
+CSS template path.
+Generator uses handlebars templates.
+
+###cssFontsPath
 
 Type: `string`
+<br>
+Default: `options.destCss`
+
+Fonts path used in CSS file.
+
+###cssTemplateData
+
+Type: `object`
+<br>
+Default: 
+```js
+{
+	classPrefix: 'icon-'
+}
+```
+
+Data for CSS template.
 
 ###types
 
-Font files types to generate.
+Type: `array<string>`
+<br>
+Default: `['woff', 'eot']`
+
+Font file types to generate.
 Possible values: `svg, ttf, woff, eot`.
 
-Type: `array<string>`
+###order
 
-Default: `woff, eot`
+Type: `array<string>`
+<br>
+Default: `['eot', 'woff', 'ttf', 'svg']`
+
+Order of `src` values in `font-face` in CSS file.
 
 ###rename
 
-Function that takes path of file and return name of icon.
-
 Type: `function(string) -> string`
-
+<br>
 Default: `path.basename`
+
+Function that takes path of file and return name of icon.
 
 ###startCodepoint
 
-Starting codepoint. Defaults to beginning of unicode private area.
-
 Type: `number`
-
+<br>
 Default: `0xF101`
+
+Starting codepoint. Defaults to beginning of unicode private area.
 
 ###codepoints
 
+Type: `object`
+
 Specific codepoints for certain icons.
 Icons without codepoints will have codepoints incremented from `startCodepoint` skipping duplicates.
-
-Type: `object`
 
 ###fontName, fixedWidth, centerHorizontally, normalize, fontHeight, round, descent
 

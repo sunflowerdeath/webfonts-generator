@@ -1,0 +1,17 @@
+@font-face {
+	font-family: "{{fontName}}";
+	src: {{{src}}};
+}
+
+.{{baseClass}}:before {
+	line-height: 1;
+	font-family: {{fontName}} !important;
+	font-style: normal;
+	font-weight: normal !important;
+}
+
+{{#each codepoints}}
+.{{../classPrefix}}{{@key}}:before {
+	content: "\\{{this}}";
+}
+{{/each}}

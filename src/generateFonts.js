@@ -1,4 +1,3 @@
-/** @flow */
 var fs = require('fs')
 var path = require('path')
 var _ = require('underscore')
@@ -15,7 +14,7 @@ var generators = {
 		fn: function(options, done) {
 			var font = new Buffer(0)
 			var svgOptions = _.pick(options,
-			 'fontName', 'fontHeight', 'descent', 'normalize', 'round'
+				'fontName', 'fontHeight', 'descent', 'normalize', 'round'
 			)
 
 			var icons = _.map(options.files, function(file, idx) {
@@ -65,7 +64,10 @@ var generators = {
 	}
 }
 
-var generateFonts = function(options, done) {
+/**
+ * @returns Promise
+ */
+var generateFonts = function(options) {
 	var genTasks = {}
 
 	var makeGenTask = function(type) {
@@ -99,14 +101,7 @@ var generateFonts = function(options, done) {
 		makeWriteTask(genTask, type)
 	}
 
-	Q.all(writeTasks)
-		.then(function() {
-			done(null)
-		})
-		.fail(function(err) {
-			console.log('ERR', err)
-			done(err)
-		})
+	return Q.all(writeTasks)
 }
 
 module.exports = generateFonts

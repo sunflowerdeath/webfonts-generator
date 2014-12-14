@@ -2,12 +2,12 @@
   "name": "webfont",
   "version": "0.0.0",
   "description": "Generator of webfonts from svg icons",
-  "main": "index.js",
+  "main": "src/index.js",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha tests"
   },
   "repository": {
     "type": "git",
@@ -26,8 +26,8 @@
     "url": "https://github.com/sunflowerdeath/node-webfont/issues"
   },
   "dependencies": {
+    "handlebars": "^2.0.0",
     "mkdirp": "^0.5.0",
-    "mustache": "^0.8.2",
     "q": "^1.1.2",
     "svg2ttf": "^1.2.0",
     "svgicons2svgfont": "^1.0.0",
