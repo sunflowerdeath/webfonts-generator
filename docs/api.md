@@ -57,7 +57,7 @@ Fonts path used in CSS file.
 
 Type: `object`
 <br>
-Default: 
+Default:
 ```js
 {
 	classPrefix: 'icon-'
@@ -87,7 +87,7 @@ Order of `src` values in `font-face` in CSS file.
 
 Type: `function(string) -> string`
 <br>
-Default: `path.basename`
+Default: basename of file
 
 Function that takes path of file and return name of icon.
 

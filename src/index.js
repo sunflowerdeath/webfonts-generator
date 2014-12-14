@@ -12,7 +12,7 @@ var DEFAULT_OPTIONS = {
 		classPrefix: 'icon-'
 	},
 	cssFontsPath: '',
-	types: ['eot', 'woff', 'ttf', 'svg'],
+	types: ['eot', 'woff'],
 	order: ['eot', 'woff', 'ttf', 'svg'],
 	rename: function(file) {
 		return path.basename(file, path.extname(file))
@@ -36,7 +36,9 @@ var webfont = function(options, done) {
 	if (options.destCss === undefined) {
 		options.destCss = path.join(options.dest, options.fontName + '.css')
 	}
-	
+
+	//Generates codepoints starting from `options.startCodepoint`,
+	//skipping codepoints explicitly specified in `options.codepoints`
 	var currentCodepoint = options.startCodepoint
 	function getNextCodepoint() {
 		while (_.contains(options.codepoints, currentCodepoint)) {

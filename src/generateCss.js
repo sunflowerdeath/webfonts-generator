@@ -12,17 +12,17 @@ var makeSrc = function(options) {
 		svg: _.template('url("<%= path %>#<%= fontName %>") format("svg")')
 	}
 
+  //Order used types according to options.order
 	var orderedTypes = _.filter(options.order, function(type) {
 		return options.types.indexOf(type) !== -1
 	})
 
 	var src = _.map(orderedTypes, function(type) {
 		var fontPath = path.join(options.cssFontsPath, options.fontName + '.' + type)
-		var src = templates[type]({
+		return templates[type]({
 			path: fontPath,
 			fontName: options.fontName
 		})
-		return src
 	}).join(',\n')
 
 	return src
@@ -31,6 +31,7 @@ var makeSrc = function(options) {
 var generateCss = function(options) {
 	var source = fs.readFileSync(options.cssTemplate, 'utf8')
 	var template = handlebars.compile(source)
+	//transform codepoints to hex strings
 	var codepoints = _.object(_.map(options.codepoints, function(codepoint, name) {
 		return [name, codepoint.toString(16)]
 	}))
@@ -40,7 +41,6 @@ var generateCss = function(options) {
 		codepoints: codepoints
 	}, options.cssTemplateData)
 	var css = template(ctx)
-
 	mkdirp.sync(path.dirname(options.destCss))
 	fs.writeFileSync(options.destCss, css)
 }
