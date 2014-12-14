@@ -12,7 +12,7 @@ var makeSrc = function(options) {
 		svg: _.template('url("<%= path %>#<%= fontName %>") format("svg")')
 	}
 
-  //Order used types according to options.order
+	//Order used types according to options.order
 	var orderedTypes = _.filter(options.order, function(type) {
 		return options.types.indexOf(type) !== -1
 	})

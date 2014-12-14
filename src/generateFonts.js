@@ -14,11 +14,11 @@ var ttf2eot = require('ttf2eot')
  *
  * Generators have following properties:
  * [deps] {array.<string>} Names of font types that will be generated before current
- *    and passed to generate function.
+ *		and passed to generate function.
  * fn {function(options, ...depsFonts, done)} Generate function with following arguments:
- *   options {object} Options passed to `generateFonts` function.
- *   ...depsFonts Fonts listed in deps.
- *   done {function(err, font)} Callback that takes error or null and generated font.
+ *	 options {object} Options passed to `generateFonts` function.
+ *	 ...depsFonts Fonts listed in deps.
+ *	 done {function(err, font)} Callback that takes error or null and generated font.
  */
 var generators = {
 	svg: {
@@ -81,11 +81,11 @@ var generators = {
 var generateFonts = function(options) {
 	var genTasks = {}
 
-  /**
-   * Creates tasks for dependent font types.
-   * Then creates task for specified font type and chains it to dependencies promises.
-   * If some task already exists, it reuses it.
-   */
+	/**
+	 * Creates tasks for dependent font types.
+	 * Then creates task for specified font type and chains it to dependencies promises.
+	 * If some task already exists, it reuses it.
+	 */
 	var makeGenTask = function(type) {
 		if (genTasks[type]) return genTasks[type]
 
@@ -101,7 +101,7 @@ var generateFonts = function(options) {
 
 	var writeTasks = []
 
-  /** Creates task that writes file to disk after it is generated. */
+	/** Creates task that writes file to disk after it is generated. */
 	var makeWriteTask = function(genTask, type) {
 		var task = genTask.then(function(font) {
 			var filepath = path.join(options.dest, options.fontName + '.' + type)
@@ -113,7 +113,7 @@ var generateFonts = function(options) {
 
 	mkdirp.sync(options.dest)
 
-  //Create all needed generate and write tasks. */
+	//Create all needed generate and write tasks. */
 	for (var i in options.types) {
 		var type = options.types[i]
 		var genTask = makeGenTask(type)
