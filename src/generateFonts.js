@@ -14,8 +14,8 @@ var ttf2eot = require('ttf2eot')
  *
  * Generators have following properties:
  * [deps] {array.<string>} Names of font types that will be generated before current
- *		and passed to generate function.
- * fn {function(options, ...depsFonts, done)} Generate function with following arguments:
+ *		and passed to generator function.
+ * fn {function(options, ...depsFonts, done)} Generator function with following arguments:
  *	 options {object} Options passed to `generateFonts` function.
  *	 ...depsFonts Fonts listed in deps.
  *	 done {function(err, font)} Callback that takes error or null and generated font.
@@ -82,7 +82,7 @@ var generateFonts = function(options) {
 	var genTasks = {}
 
 	/**
-	 * Creates tasks for dependent font types.
+	 * First, creates tasks for dependent font types.
 	 * Then creates task for specified font type and chains it to dependencies promises.
 	 * If some task already exists, it reuses it.
 	 */
@@ -113,7 +113,7 @@ var generateFonts = function(options) {
 
 	mkdirp.sync(options.dest)
 
-	//Create all needed generate and write tasks. */
+	//Create all needed generate and write tasks.
 	for (var i in options.types) {
 		var type = options.types[i]
 		var genTask = makeGenTask(type)
