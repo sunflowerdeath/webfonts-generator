@@ -10,6 +10,8 @@ Features:
 * Supported browsers: IE8+.
 * Generates CSS files and HTML preview, allows to use custom templates. 
 
+*HTML preview is not implemented yet.*
+
 ##Install
 
 `npm install webfonts-generator`
@@ -103,7 +105,8 @@ Type: `object`
 Default:
 ```js
 {
-	classPrefix: 'icon-'
+	classPrefix: 'icon-',
+	baseClass: 'icon'
 }
 ```
 
