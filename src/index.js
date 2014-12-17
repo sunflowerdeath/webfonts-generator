@@ -41,8 +41,8 @@ var DEFAULT_OPTIONS = {
 var webfont = function(options, done) {
 	options = _.defaults(options, DEFAULT_OPTIONS)
 
-	//TODO ensure required options (files, dest, ...?)
-	//TODO test that it throws if they are not specified
+	if (options.dest === undefined) return done(new Error('"options.dest" is undefined.'))
+	if (options.files === undefined) return done(new Error('"options.files" is undefined.'))
 
 	options.names = _.map(options.files, options.rename)
 	if (options.cssDest === undefined) {

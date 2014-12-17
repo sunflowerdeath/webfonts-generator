@@ -11,8 +11,6 @@ Features:
 * Supported browsers: IE8+.
 * Generates CSS files and HTML preview, allows to use custom templates. 
 
-*HTML preview is not implemented yet.*
-
 ##Install
 
 `npm install webfonts-generator`
@@ -102,8 +100,8 @@ Generator uses handlebars templates.
 Template receives options from `options.templateOptions` along with the following options:
 
 * fontName
-* src `string` Value of the `src` property for `@font-face`.
-* codepoints `object` Codepoints of icons in hex format.
+* src `string` &ndash; Value of the `src` property for `@font-face`.
+* codepoints `object` &ndash; Codepoints of icons in hex format.
 
 ###cssFontsPath
 
@@ -141,8 +139,9 @@ Generator uses handlebars templates.
 Template receives options from `options.templateOptions` along with the following options:
 
 * fontName
-* styles `string` Generated styles.
-* names `array.<string>` Names of icons.
+* styles `string` &ndash; Styles generated with default CSS template.
+	(`cssFontsPath` is chaged to relative path from `htmlDest` to `dest`)
+* names `array.<string>` &ndash; Names of icons.
 
 ###templateOptions
 

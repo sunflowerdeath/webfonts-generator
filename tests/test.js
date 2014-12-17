@@ -32,10 +32,7 @@ describe('webfont', function() {
 
 	it('generates all fonts and css files', function(done) {
 		webfontsGenerator(OPTIONS, function(err) {
-			if (err) {
-				done(err)
-				return
-			}
+			if (err) return done(err)
 
 			var destFiles = fs.readdirSync(DEST)
 			for (var i in TYPES) {
@@ -50,18 +47,43 @@ describe('webfont', function() {
 			assert(fs.existsSync(cssFile), 'CSS file exists') 
 			assert(fs.statSync(cssFile).size > 0, 'CSS file is not empty')
 
+			var htmlFile = path.join(DEST, FONT_NAME + '.html')
+			assert(!fs.existsSync(htmlFile), 'HTML file does not exists by default') 
+
 			done(null)
 		})
 	})
 
-	xit('throws when required options are not specified', function() {
+	it('gives error when "dest" is undefined', function(done) {
+		var options = _.extend({}, OPTIONS, {dest: undefined})
+		webfontsGenerator(options, function(err) {
+			assert(err !== undefined)
+			done()
+		})
+	})
+
+	it('gives error when "files" is undefined', function(done) {
+		var options = _.extend({}, OPTIONS, {files: undefined})
+		webfontsGenerator(options, function(err) {
+			assert(err !== undefined)
+			done()
+		})
 	})
 
 	xit('uses codepoints and startCodepoint', function() {
 	})
 
-	xit('generates html file when options.html is true', function() {
-		//html file exists and not empty
+	it('generates html file when options.html is true', function(done) {
+		var options = _.extend({}, OPTIONS, {html: true})
+		webfontsGenerator(options, function(err) {
+			if (err) return done(err)
+
+			var htmlFile = path.join(DEST, FONT_NAME + '.html')
+			assert(fs.existsSync(htmlFile), 'HTML file exists') 
+			assert(fs.statSync(htmlFile).size > 0, 'HTML file is not empty')
+
+			done(null)
+		})
 	})
 
 	xit('uses custom css template', function() {
