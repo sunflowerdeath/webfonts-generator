@@ -16,6 +16,13 @@ describe('webfont', function() {
 	var TYPES = ['svg', 'ttf', 'woff', 'eot']
 	var FONT_NAME = 'fontName'
 
+	var OPTIONS = {
+		dest: DEST,
+		files: FILES,
+		fontName: FONT_NAME,
+		types: TYPES
+	}
+
 	afterEach(function() {
 		var files = _.map(fs.readdirSync(DEST), function(file) {
 			return path.join(DEST, file)
@@ -24,15 +31,11 @@ describe('webfont', function() {
 	})
 
 	it('generates all fonts and css files', function(done) {
-		var OPTIONS = {
-			dest: DEST,
-			files: FILES,
-			fontName: FONT_NAME,
-			types: TYPES
-		}
-
 		webfontsGenerator(OPTIONS, function(err) {
-			if (err) done(err)
+			if (err) {
+				done(err)
+				return
+			}
 
 			var destFiles = fs.readdirSync(DEST)
 			for (var i in TYPES) {
@@ -51,14 +54,19 @@ describe('webfont', function() {
 		})
 	})
 
-	xit('uses codepoints and startCodepoint', function() {
+	xit('throws when required options are not specified', function() {
 	})
 
-	xit('uses custom css template', function() {
+	xit('uses codepoints and startCodepoint', function() {
 	})
 
 	xit('generates html file when options.html is true', function() {
 		//html file exists and not empty
 	})
 
+	xit('uses custom css template', function() {
+	})
+
+	xit('uses custom html template', function() {
+	})
 })

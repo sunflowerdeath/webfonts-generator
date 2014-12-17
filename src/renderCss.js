@@ -2,7 +2,6 @@ var fs = require('fs')
 var path = require('path')
 var _ = require('underscore')
 var handlebars = require('handlebars')
-var mkdirp = require('mkdirp')
 
 var makeSrc = function(options) {
 	var templates = {
@@ -18,6 +17,7 @@ var makeSrc = function(options) {
 	})
 
 	var src = _.map(orderedTypes, function(type) {
+		//TODO hashes
 		var fontPath = path.join(options.cssFontsPath, options.fontName + '.' + type)
 		return templates[type]({
 			path: fontPath,
@@ -28,21 +28,21 @@ var makeSrc = function(options) {
 	return src
 }
 
-var generateCss = function(options) {
+var renderCss = function(options) {
 	var source = fs.readFileSync(options.cssTemplate, 'utf8')
 	var template = handlebars.compile(source)
+
 	//transform codepoints to hex strings
 	var codepoints = _.object(_.map(options.codepoints, function(codepoint, name) {
 		return [name, codepoint.toString(16)]
 	}))
+
 	var ctx = _.extend({
 		fontName: options.fontName,
 		src: makeSrc(options),
 		codepoints: codepoints
-	}, options.cssTemplateData)
-	var css = template(ctx)
-	mkdirp.sync(path.dirname(options.destCss))
-	fs.writeFileSync(options.destCss, css)
+	}, options.templateOptions)
+	return template(ctx)
 }
 
-module.exports = generateCss
+module.exports = renderCss

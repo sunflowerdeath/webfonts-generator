@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{{fontName}}</title>
+	<style>
+		body {
+			font-family: sans-serif;
+			margin: 0;
+			padding: 10px 20px;
+		}
+
+		.preview {
+			line-height: 2em;
+		}
+
+		.preview__icon {
+			display: inline-block;
+			width: 32px;
+			text-align: center;
+		}
+
+		.icon {
+			display: inline-block;
+			font-size: 16px;
+		}
+
+		{{{styles}}}
+	</style>
+</head>
+<body>
+	<h1>{{fontName}}</h1>
+	{{#each names}}
+	<div class="preview">
+		<span class="preview__icon">
+			<span class="{{../baseClass}} {{../classPrefix}}{{this}}"></span>
+		</span>
+		<span>{{this}}</span>
+	</div>
+	{{/each}}
+</body>
+</html>

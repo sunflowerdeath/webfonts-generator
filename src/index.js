@@ -1,19 +1,30 @@
+var fs = require('fs')
 var path = require('path')
+var mkdirp = require('mkdirp')
 var _ = require('underscore')
 
 var generateFonts = require('./generateFonts')
-var generateCss = require('./generateCss')
+var renderCss = require('./renderCss')
+var renderHtml = require('./renderHtml')
 
 var DEFAULT_OPTIONS = {
 	fontName: 'iconfont',
-	cssTemplate: path.join(__dirname, '../templates/css.hbs'),
-	cssTemplateData: {
+
+	templateOptions: {
 		baseClass: 'icon',
 		classPrefix: 'icon-'
 	},
+
+	css: true,
+	cssTemplate: path.join(__dirname, '../templates/css.hbs'),
 	cssFontsPath: '',
+
+	html: false,
+	htmlTemplate: path.join(__dirname, '../templates/html.hbs'),
+
 	types: ['eot', 'woff'],
 	order: ['eot', 'woff', 'ttf', 'svg'],
+
 	rename: function(file) {
 		return path.basename(file, path.extname(file))
 	},
@@ -23,6 +34,7 @@ var DEFAULT_OPTIONS = {
 	 */
 	startCodepoint: 0xF101,
 	codepoints: {},
+
 	normalize: true
 }
 
@@ -33,8 +45,11 @@ var webfont = function(options, done) {
 	//TODO test that it throws if they are not specified
 
 	options.names = _.map(options.files, options.rename)
-	if (options.destCss === undefined) {
-		options.destCss = path.join(options.dest, options.fontName + '.css')
+	if (options.cssDest === undefined) {
+		options.cssDest = path.join(options.dest, options.fontName + '.css')
+	}
+	if (options.htmlDest === undefined) {
+		options.htmlDest = path.join(options.dest, options.fontName + '.html')
 	}
 
 	//Generates codepoints starting from `options.startCodepoint`,
@@ -52,19 +67,26 @@ var webfont = function(options, done) {
 		}
 	})
 
+	function writeFile(file, dest) {
+		mkdirp.sync(path.dirname(dest))
+		fs.writeFileSync(dest, file)
+	}
+
 	//TODO output
 	generateFonts(options)
-		.then(function() { return generateCss(options) })
-		.then(function() { return generateHtml(options) })
-		.then(function() { done(null) })
+		.then(function() {
+			if (options.css) {
+				var css = renderCss(options)
+				writeFile(css, options.cssDest)
+			}
+			if (options.html) {
+				var html = renderHtml(options)
+				writeFile(html, options.htmlDest)
+			}
+			done()
+		})
 		.fail(function(err) { done(err) })
 }
 
-
-
-var generateHtml = function(options) {
-	return options
-	//TODO
-}
 
 module.exports = webfont
