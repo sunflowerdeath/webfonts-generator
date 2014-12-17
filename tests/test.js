@@ -70,7 +70,30 @@ describe('webfont', function() {
 		})
 	})
 
-	xit('uses codepoints and startCodepoint', function() {
+	it('uses codepoints and startCodepoint', function(done) {
+		var START_CODEPOINT = 0x40
+		var CODEPOINTS = {
+			close: 0xFF 
+		}
+		var options = _.extend({}, OPTIONS, {
+			codepoints: CODEPOINTS,
+			startCodepoint: START_CODEPOINT
+		})
+		webfontsGenerator(options, function(err) {
+			if (err) return done(err)
+
+			var svg = fs.readFileSync(path.join(DEST, FONT_NAME + '.svg'), 'utf8')
+
+			function codepointInSvg(cp) {
+				return svg.indexOf(cp.toString(16).toUpperCase()) !== -1
+			}
+
+			assert(codepointInSvg(START_CODEPOINT), 'startCodepoint used')
+			assert(codepointInSvg(START_CODEPOINT+1), 'startCodepoint incremented')
+			assert(codepointInSvg(CODEPOINTS.close), 'codepoints used')
+
+			done()
+		})
 	})
 
 	it('generates html file when options.html is true', function(done) {
@@ -86,9 +109,36 @@ describe('webfont', function() {
 		})
 	})
 
-	xit('uses custom css template', function() {
+	var TEMPLATE = path.join(__dirname, 'customTemplate.hbs')
+	var TEMPLATE_OPTIONS = {
+		option: 'TEST'
+	}
+	var RENDERED_TEMPLATE = 'custom template ' + TEMPLATE_OPTIONS.option + '\n'
+
+	it('uses custom css template', function(done) {
+		var options = _.extend({}, OPTIONS, {
+			cssTemplate: TEMPLATE,
+			templateOptions: TEMPLATE_OPTIONS
+		})
+		webfontsGenerator(options, function(err) {
+			if (err) return done(err)
+			var cssFile = fs.readFileSync(path.join(DEST, FONT_NAME + '.css'), 'utf8')
+			assert.equal(cssFile, RENDERED_TEMPLATE)
+			done(null)
+		})
 	})
 
-	xit('uses custom html template', function() {
+	it('uses custom html template', function(done) {
+		var options = _.extend({}, OPTIONS, {
+			html: true,
+			htmlTemplate: TEMPLATE,
+			templateOptions: TEMPLATE_OPTIONS
+		})
+		webfontsGenerator(options, function(err) {
+			if (err) return done(err)
+			var htmlFile = fs.readFileSync(path.join(DEST, FONT_NAME + '.html'), 'utf8')
+			assert.equal(htmlFile, RENDERED_TEMPLATE)
+			done(null)
+		})
 	})
 })
