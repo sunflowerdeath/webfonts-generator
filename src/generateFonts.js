@@ -37,6 +37,7 @@ var generators = {
 				}
 			})
 
+			svgOptions.log = function(){}
 			svgicons2svgfont(icons, svgOptions)
 				.on('data', function(data) {
 					font = Buffer.concat([font, data])

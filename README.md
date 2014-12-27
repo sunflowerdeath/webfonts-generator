@@ -96,7 +96,7 @@ Type: `string`
 <br>
 Default: `templates/css.hbs`
 
-CSS template path.
+Path of custom CSS template.
 Generator uses handlebars templates.
 
 Template receives options from `options.templateOptions` along with the following options:
@@ -104,6 +104,31 @@ Template receives options from `options.templateOptions` along with the followin
 * fontName
 * src `string` &ndash; Value of the `src` property for `@font-face`.
 * codepoints `object` &ndash; Codepoints of icons in hex format.
+
+###cssTemplateType
+
+Type: `string`
+<br>
+Default: `'css'`
+
+When custom template is not specified, this option is used to set type of default template.
+Possible values are `css` and `scss`.
+
+`css` template generates classes with names based on values from `options.templateOptions`.
+
+`scss` template generates mixin `webfont-icon` to add icons styles.
+<br>
+Example of use:
+
+```
+@import 'iconfont';
+
+.icon {
+  @include webfont-icon('icon');
+}
+```
+
+*It is safe to use multiple generated mixins together*
 
 ###cssFontsPath
 

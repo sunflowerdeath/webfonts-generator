@@ -36,6 +36,7 @@
     "underscore": "^1.7.0"
   },
   "devDependencies": {
-    "mocha": "^2.0.1"
+    "mocha": "^2.0.1",
+    "node-sass": "^2.0.0-beta"
   }
 }

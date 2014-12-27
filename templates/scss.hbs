@@ -1,0 +1,27 @@
+@font-face {
+	font-family: "{{fontName}}";
+	src: {{{src}}};
+}
+
+@if not variable-exists('webfont-icons') {
+	$webfont-icons: ();
+}
+
+$webfont-icons: map-merge($webfont-icons, (
+	{{#each codepoints}}
+		'{{@key}}': ('{{../fontName}}' '{{this}}'),
+	{{/each}}
+));
+
+@if not mixin-exists('webfont-icon') {
+	@mixin webfont-icon($name) {
+		$icon: map-get($webfont-icons, $name);
+		&:before {
+			line-height: 1;
+			font-family: nth($icon, 1) !important;
+			font-style: normal;
+			font-weight: normal !important;
+			content: '\\' + nth($icon, 2);
+		}
+	}
+}

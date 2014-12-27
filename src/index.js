@@ -9,22 +9,17 @@ var renderHtml = require('./renderHtml')
 
 var DEFAULT_OPTIONS = {
 	fontName: 'iconfont',
-
 	templateOptions: {
 		baseClass: 'icon',
 		classPrefix: 'icon-'
 	},
-
 	css: true,
-	cssTemplate: path.join(__dirname, '../templates/css.hbs'),
+	cssTemplateType: 'css',
 	cssFontsPath: '',
-
 	html: false,
 	htmlTemplate: path.join(__dirname, '../templates/html.hbs'),
-
 	types: ['eot', 'woff'],
 	order: ['eot', 'woff', 'ttf', 'svg'],
-
 	rename: function(file) {
 		return path.basename(file, path.extname(file))
 	},
@@ -33,17 +28,27 @@ var DEFAULT_OPTIONS = {
 	 * http://en.wikipedia.org/wiki/Private_Use_(Unicode)
 	 */
 	startCodepoint: 0xF101,
-
 	normalize: true
 }
 
+var TEMPLATES_DIR = path.join(__dirname, '..', 'templates')
+var TEMPLATE_TYPES = ['css', 'scss']
+
 var webfont = function(options, done) {
-	options = _.defaults(options, DEFAULT_OPTIONS)
+	options = _.extend({}, DEFAULT_OPTIONS, options)
 
 	if (options.dest === undefined) return done(new Error('"options.dest" is undefined.'))
 	if (options.files === undefined) return done(new Error('"options.files" is undefined.'))
 
-	//since we modify codepoints later, we can not reuse empty object
+	if (options.cssTemplate === undefined) {
+		var type = options.cssTemplateType
+		if (TEMPLATE_TYPES.indexOf(type) === -1) {
+			done(new Error('Unknown cssTemplateType: "' + type + '"'))
+		}
+		options.cssTemplate = path.join(TEMPLATES_DIR, type + '.hbs')
+	}
+
+	//we modify codepoints later, so we can't use one object from default options every time
 	if (options.codepoints === undefined) options.codepoints = {}
 
 	options.names = _.map(options.files, options.rename)
