@@ -33,7 +33,6 @@ var DEFAULT_OPTIONS = {
 	 * http://en.wikipedia.org/wiki/Private_Use_(Unicode)
 	 */
 	startCodepoint: 0xF101,
-	codepoints: {},
 
 	normalize: true
 }
@@ -43,6 +42,9 @@ var webfont = function(options, done) {
 
 	if (options.dest === undefined) return done(new Error('"options.dest" is undefined.'))
 	if (options.files === undefined) return done(new Error('"options.files" is undefined.'))
+
+	//since we modify codepoints later, we can not reuse empty object
+	if (options.codepoints === undefined) options.codepoints = {}
 
 	options.names = _.map(options.files, options.rename)
 	if (options.cssDest === undefined) {

@@ -13,7 +13,9 @@ Features:
 
 ##Install
 
-`npm install webfonts-generator`
+```
+npm install webfonts-generator
+```
 
 ##Usage
 
