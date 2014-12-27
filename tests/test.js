@@ -2,8 +2,6 @@ var fs = require('fs')
 var path = require('path')
 var _ = require('underscore')
 var assert = require('assert')
-var sass = require('node-sass')
-var Q = require('q')
 
 var webfontsGenerator = require('../src/index')
 
@@ -146,55 +144,61 @@ describe('webfont', function() {
 		})
 	})
 
-	describe('scss template', function() {
-		var TEST_SCSS_SINGLE = path.join(__dirname, 'scss', 'singleFont.scss')
-		var TEST_SCSS_MULTIPLE = path.join(__dirname, 'scss', 'multipleFonts.scss')
+	//testing with sass fails on node v0.11
+	if (process.version.slice(0, 5) === 'v0.10') {
+		var sass = require('node-sass')
+		var Q = require('q')
 
-		it('creates mixins that can be used to create icons styles', function(done) {
-			var DEST_CSS = path.join(DEST, FONT_NAME + '.scss')
-			var options = _.extend({}, OPTIONS, {
-				cssTemplateType: 'scss',
-				cssDest: DEST_CSS
-			})
-			webfontsGenerator(options, function(err) {
-				if (err) return done(new Error(err))
-				var rendered = sass.renderSync({
-					file: TEST_SCSS_SINGLE
+		describe('scss template', function() {
+			var TEST_SCSS_SINGLE = path.join(__dirname, 'scss', 'singleFont.scss')
+			var TEST_SCSS_MULTIPLE = path.join(__dirname, 'scss', 'multipleFonts.scss')
+
+			it('creates mixins that can be used to create icons styles', function(done) {
+				var DEST_CSS = path.join(DEST, FONT_NAME + '.scss')
+				var options = _.extend({}, OPTIONS, {
+					cssTemplateType: 'scss',
+					cssDest: DEST_CSS
 				})
-				var css = rendered.css
-				assert(css.indexOf(FONT_NAME) !== -1)
-				done(null)
+				webfontsGenerator(options, function(err) {
+					if (err) return done(new Error(err))
+					var rendered = sass.renderSync({
+						file: TEST_SCSS_SINGLE
+					})
+					var css = rendered.css
+					assert(css.indexOf(FONT_NAME) !== -1)
+					done(null)
+				})
+			})
+			
+			it('multiple scss mixins can be used together', function() {
+				var FONT_NAME_2 = FONT_NAME + '2'
+				var DEST_CSS = path.join(DEST, FONT_NAME + '.scss')
+				var DEST_CSS_2 = path.join(DEST, FONT_NAME_2 + '.scss')
+
+				var options1 = _.extend({}, OPTIONS, {
+					cssTemplateType: 'scss',
+					cssDest: DEST_CSS,
+					files: [path.join(SRC, 'close.svg')]
+				})
+				var options2 = _.extend({}, OPTIONS, {
+					fontName: FONT_NAME_2,
+					cssTemplateType: 'scss',
+					cssDest: DEST_CSS_2,
+					files: [path.join(SRC, 'back.svg')]
+				})
+
+				var generate1 = Q.nfcall(webfontsGenerator, options1)
+				var generate2 = Q.nfcall(webfontsGenerator, options2)
+
+				return Q.all([generate1, generate2]).then(function() {
+					var rendered = sass.renderSync({
+						file: TEST_SCSS_MULTIPLE
+					})
+					var css = rendered.css
+					assert(css.indexOf(FONT_NAME) !== -1)
+					assert(css.indexOf(FONT_NAME_2) !== -1)
+				})
 			})
 		})
-		
-		it('multiple scss mixins can be used together', function() {
-			var FONT_NAME_2 = FONT_NAME + '2'
-			var DEST_CSS = path.join(DEST, FONT_NAME + '.scss')
-			var DEST_CSS_2 = path.join(DEST, FONT_NAME_2 + '.scss')
-
-			var options1 = _.extend({}, OPTIONS, {
-				cssTemplateType: 'scss',
-				cssDest: DEST_CSS,
-				files: [path.join(SRC, 'close.svg')]
-			})
-			var options2 = _.extend({}, OPTIONS, {
-				fontName: FONT_NAME_2,
-				cssTemplateType: 'scss',
-				cssDest: DEST_CSS_2,
-				files: [path.join(SRC, 'back.svg')]
-			})
-
-			var generate1 = Q.nfcall(webfontsGenerator, options1)
-			var generate2 = Q.nfcall(webfontsGenerator, options2)
-
-			return Q.all([generate1, generate2]).then(function() {
-				var rendered = sass.renderSync({
-					file: TEST_SCSS_MULTIPLE
-				})
-				var css = rendered.css
-				assert(css.indexOf(FONT_NAME) !== -1)
-				assert(css.indexOf(FONT_NAME_2) !== -1)
-			})
-		})
-	})
+	}
 })
