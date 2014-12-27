@@ -93,8 +93,6 @@ Path for generated CSS file.
 ###cssTemplate
 
 Type: `string`
-<br>
-Default: `templates/css.hbs`
 
 Path of custom CSS template.
 Generator uses handlebars templates.
