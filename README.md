@@ -23,14 +23,14 @@ npm install webfonts-generator
 var webfontsGenerator = require('webfonts-generator')
 
 webfontsGenerator({
-	files: [
-		'src/dropdown.svg',
-		'src/close.svg'
-	],
-	dest: 'dest/'
+  files: [
+    'src/dropdown.svg',
+    'src/close.svg'
+  ],
+  dest: 'dest/'
 }, function(error) {
-	if (error) console.log('Fail!', error)
-	else console.log('Done!')
+  if (error) console.log('Fail!', error)
+  else console.log('Done!')
 })
 ```
 
