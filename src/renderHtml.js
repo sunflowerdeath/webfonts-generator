@@ -10,8 +10,8 @@ var renderHtml = function(options) {
 	var template = handlebars.compile(source)
 
 	var htmlFontsPath = path.relative(options.htmlDest, options.dest)
-	//Styles embedded in the html file should use default css template and
-	//have path to fonts that is relative to html file location.
+	// Styles embedded in the html file should use default css template and
+	// have path to fonts that is relative to html file location.
 	var styles = renderCss(_.extend({}, options, {
 		cssFontPath: htmlFontsPath,
 		cssTemplate: path.join(__dirname, '../templates/css.hbs')

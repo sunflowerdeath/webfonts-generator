@@ -11,13 +11,13 @@ var makeSrc = function(options) {
 		svg: _.template('url("<%= path %>#<%= fontName %>") format("svg")')
 	}
 
-	//Order used types according to options.order
+	// Order used types according to 'options.order'.
 	var orderedTypes = _.filter(options.order, function(type) {
 		return options.types.indexOf(type) !== -1
 	})
 
 	var src = _.map(orderedTypes, function(type) {
-		//TODO hashes
+		// TODO hashes
 		var fontPath = path.join(options.cssFontsPath, options.fontName + '.' + type)
 		return templates[type]({
 			path: fontPath,

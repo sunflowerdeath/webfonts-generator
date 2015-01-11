@@ -39,6 +39,7 @@ var webfont = function(options, done) {
 
 	if (options.dest === undefined) return done(new Error('"options.dest" is undefined.'))
 	if (options.files === undefined) return done(new Error('"options.files" is undefined.'))
+	if (!options.files.length) return done(new Error('"options.files" is empty.'))
 
 	if (options.cssTemplate === undefined) {
 		var type = options.cssTemplateType
@@ -48,7 +49,7 @@ var webfont = function(options, done) {
 		options.cssTemplate = path.join(TEMPLATES_DIR, type + '.hbs')
 	}
 
-	//we modify codepoints later, so we can't use one object from default options every time
+	// We modify codepoints later, so we can't use same object from default options.
 	if (options.codepoints === undefined) options.codepoints = {}
 
 	options.names = _.map(options.files, options.rename)
@@ -59,8 +60,8 @@ var webfont = function(options, done) {
 		options.htmlDest = path.join(options.dest, options.fontName + '.html')
 	}
 
-	//Generates codepoints starting from `options.startCodepoint`,
-	//skipping codepoints explicitly specified in `options.codepoints`
+	// Generates codepoints starting from `options.startCodepoint`,
+	// skipping codepoints explicitly specified in `options.codepoints`
 	var currentCodepoint = options.startCodepoint
 	function getNextCodepoint() {
 		while (_.contains(options.codepoints, currentCodepoint)) {
@@ -79,7 +80,7 @@ var webfont = function(options, done) {
 		fs.writeFileSync(dest, file)
 	}
 
-	//TODO output
+	// TODO output
 	generateFonts(options)
 		.then(function() {
 			if (options.css) {
