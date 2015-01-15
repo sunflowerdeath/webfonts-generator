@@ -21,7 +21,8 @@ $webfont-icons: map-merge($webfont-icons, (
 			font-family: nth($icon, 1) !important;
 			font-style: normal;
 			font-weight: normal !important;
-			content: '\\' + nth($icon, 2);
+			vertical-align: top;
+			content: str-slice('\x', 1, 1) + nth($icon, 2);
 		}
 	}
 }
