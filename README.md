@@ -93,6 +93,8 @@ Path for generated CSS file.
 ###cssTemplate
 
 Type: `string`
+<br>
+Default: path of default CSS template
 
 Path of custom CSS template.
 Generator uses handlebars templates.
@@ -103,30 +105,24 @@ Template receives options from `options.templateOptions` along with the followin
 * src `string` &ndash; Value of the `src` property for `@font-face`.
 * codepoints `object` &ndash; Codepoints of icons in hex format.
 
-###cssTemplateType
+Paths of default templates are stored in the `webfontsGenerator.templates` object.
 
-Type: `string`
-<br>
-Default: `'css'`
+* `webfontsGenerator.templates.css` &ndash; Default CSS template path.
+	<br>
+	It generates classes with names based on values from `options.templateOptions`.
 
-When custom template is not specified, this option is used to set type of default template.
-Possible values are `css` and `scss`.
+* `webfontsGenerator.templates.scss` &ndash; Default SCSS template path.
+	<br>
+	It generates mixin `webfont-icon` to add icon styles.
+	<br>
+	It is safe to use multiple generated files with mixins together.
+	<br>
+	Example of use:
 
-`css` template generates classes with names based on values from `options.templateOptions`.
-
-`scss` template generates mixin `webfont-icon` to add icons styles.
-<br>
-Example of use:
-
-```
-@import 'iconfont';
-
-.icon {
-  @include webfont-icon('icon');
-}
-```
-
-*It is safe to use multiple generated mixins together*
+	```
+	@import 'iconfont';
+	.icon { @include webfont-icon('icon'); }
+	```
 
 ###cssFontsPath
 
@@ -171,16 +167,16 @@ Template receives options from `options.templateOptions` along with the followin
 ###templateOptions
 
 Type: `object`
-<br>
-Default:
+
+Additional options for CSS & HTML templates, that extends default options.
+
+Default options are:
 ```js
 {
 	classPrefix: 'icon-',
 	baseClass: 'icon'
 }
 ```
-
-Additional data for CSS & HTML templates.
 
 ###types
 

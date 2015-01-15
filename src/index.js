@@ -7,17 +7,25 @@ var generateFonts = require('./generateFonts')
 var renderCss = require('./renderCss')
 var renderHtml = require('./renderHtml')
 
+var TEMPLATES_DIR = path.join(__dirname, '..', 'templates')
+var TEMPLATES = {
+	css: path.join(TEMPLATES_DIR, 'css.hbs'),
+	scss: path.join(TEMPLATES_DIR, 'scss.hbs'),
+	html: path.join(TEMPLATES_DIR, 'html.hbs')
+}
+
+var DEFAULT_TEMPLATE_OPTIONS = {
+	baseClass: 'icon',
+	classPrefix: 'icon-'
+}
+
 var DEFAULT_OPTIONS = {
 	fontName: 'iconfont',
-	templateOptions: {
-		baseClass: 'icon',
-		classPrefix: 'icon-'
-	},
 	css: true,
-	cssTemplateType: 'css',
+	cssTemplate: TEMPLATES.css,
 	cssFontsPath: '',
 	html: false,
-	htmlTemplate: path.join(__dirname, '../templates/html.hbs'),
+	htmlTemplate: TEMPLATES.html,
 	types: ['eot', 'woff'],
 	order: ['eot', 'woff', 'ttf', 'svg'],
 	rename: function(file) {
@@ -31,23 +39,12 @@ var DEFAULT_OPTIONS = {
 	normalize: true
 }
 
-var TEMPLATES_DIR = path.join(__dirname, '..', 'templates')
-var TEMPLATE_TYPES = ['css', 'scss']
-
 var webfont = function(options, done) {
 	options = _.extend({}, DEFAULT_OPTIONS, options)
 
 	if (options.dest === undefined) return done(new Error('"options.dest" is undefined.'))
 	if (options.files === undefined) return done(new Error('"options.files" is undefined.'))
 	if (!options.files.length) return done(new Error('"options.files" is empty.'))
-
-	if (options.cssTemplate === undefined) {
-		var type = options.cssTemplateType
-		if (TEMPLATE_TYPES.indexOf(type) === -1) {
-			done(new Error('Unknown cssTemplateType: "' + type + '"'))
-		}
-		options.cssTemplate = path.join(TEMPLATES_DIR, type + '.hbs')
-	}
 
 	// We modify codepoints later, so we can't use same object from default options.
 	if (options.codepoints === undefined) options.codepoints = {}
@@ -59,6 +56,8 @@ var webfont = function(options, done) {
 	if (options.htmlDest === undefined) {
 		options.htmlDest = path.join(options.dest, options.fontName + '.html')
 	}
+
+	options.templateOptions = _.extend({}, DEFAULT_TEMPLATE_OPTIONS, options.templateOptions)
 
 	// Generates codepoints starting from `options.startCodepoint`,
 	// skipping codepoints explicitly specified in `options.codepoints`
@@ -75,9 +74,9 @@ var webfont = function(options, done) {
 		}
 	})
 
-	function writeFile(file, dest) {
+	function writeFile(content, dest) {
 		mkdirp.sync(path.dirname(dest))
-		fs.writeFileSync(dest, file)
+		fs.writeFileSync(dest, content)
 	}
 
 	// TODO output
@@ -93,8 +92,9 @@ var webfont = function(options, done) {
 			}
 			done()
 		})
-		.fail(function(err) { done(err) })
+		.catch(function(err) { done(err) })
 }
 
+webfont.templates = TEMPLATES
 
 module.exports = webfont

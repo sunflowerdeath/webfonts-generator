@@ -28,20 +28,23 @@ var makeSrc = function(options) {
 	return src
 }
 
-var renderCss = function(options) {
-	var source = fs.readFileSync(options.cssTemplate, 'utf8')
-	var template = handlebars.compile(source)
-
-	//transform codepoints to hex strings
+var makeCtx = function(options) {
+	// Transform codepoints to hex strings
 	var codepoints = _.object(_.map(options.codepoints, function(codepoint, name) {
 		return [name, codepoint.toString(16)]
 	}))
 
-	var ctx = _.extend({
+	return _.extend({
 		fontName: options.fontName,
 		src: makeSrc(options),
 		codepoints: codepoints
 	}, options.templateOptions)
+}
+
+var renderCss = function(options) {
+	var ctx = makeCtx(options)
+	var source = fs.readFileSync(options.cssTemplate, 'utf8')
+	var template = handlebars.compile(source)
 	return template(ctx)
 }
 

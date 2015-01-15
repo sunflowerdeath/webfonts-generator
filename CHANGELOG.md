@@ -13,3 +13,8 @@
 
 * Added options `cssTemplatePath`
 * Added SCSS template
+
+0.2.0
+
+* Option `cssTemplatePath` replaced with object `webfontsGenerator.templates`
+* Option `templateOptions` now extends defaults, not replaces.

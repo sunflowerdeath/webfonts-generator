@@ -144,7 +144,7 @@ describe('webfont', function() {
 		})
 	})
 
-	//testing with sass fails on node v0.11
+	// Testing with sass fails on node v0.11
 	if (process.version.slice(0, 5) === 'v0.10') {
 		var sass = require('node-sass')
 		var Q = require('q')
@@ -156,7 +156,7 @@ describe('webfont', function() {
 			it('creates mixins that can be used to create icons styles', function(done) {
 				var DEST_CSS = path.join(DEST, FONT_NAME + '.scss')
 				var options = _.extend({}, OPTIONS, {
-					cssTemplateType: 'scss',
+					cssTemplate: webfontsGenerator.templates.scss,
 					cssDest: DEST_CSS
 				})
 				webfontsGenerator(options, function(err) {
@@ -176,13 +176,13 @@ describe('webfont', function() {
 				var DEST_CSS_2 = path.join(DEST, FONT_NAME_2 + '.scss')
 
 				var options1 = _.extend({}, OPTIONS, {
-					cssTemplateType: 'scss',
+					cssTemplate: webfontsGenerator.templates.scss,
 					cssDest: DEST_CSS,
 					files: [path.join(SRC, 'close.svg')]
 				})
 				var options2 = _.extend({}, OPTIONS, {
 					fontName: FONT_NAME_2,
-					cssTemplateType: 'scss',
+					cssTemplate: webfontsGenerator.templates.scss,
 					cssDest: DEST_CSS_2,
 					files: [path.join(SRC, 'back.svg')]
 				})
