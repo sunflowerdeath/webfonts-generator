@@ -1,4 +1,4 @@
-#webfonts-generator
+# webfonts-generator
 
 
 [![Build Status](https://travis-ci.org/sunflowerdeath/webfonts-generator.svg?branch=master)](https://travis-ci.org/sunflowerdeath/webfonts-generator)
@@ -11,13 +11,13 @@ Features:
 * Supported browsers: IE8+.
 * Generates CSS files and HTML preview, allows to use custom templates. 
 
-##Install
+## Install
 
 ```
 npm install webfonts-generator
 ```
 
-##Usage
+## Usage
 
 ```js
 var webfontsGenerator = require('webfonts-generator')
@@ -34,23 +34,23 @@ webfontsGenerator({
 })
 ```
 
-##webfontsGenerator(options, done)
+## webfontsGenerator(options, done)
 
-###options
+### options
 
 Type: `object`
 
 Object with options. See the list of options.
 
-###done
+### done
 
 Type: `function(error)`
 
 Function that is called when generation is complete.
 
-##List of options
+## List of options
 
-###files
+### files
 
 *required*
 
@@ -58,7 +58,7 @@ Type: `array.<string>`
 
 List of SVG files.
 
-###dest
+### dest
 
 *required*
 
@@ -66,7 +66,7 @@ Type: `string`
 
 Directory for generated font files.
 
-###fontName
+### fontName
 
 Type: `string`
 <br>
@@ -74,7 +74,7 @@ Default: `'iconfont'`
 
 Name of font and base name of font files.
 
-###css
+### css
 
 Type: `boolean`
 <br>
@@ -82,7 +82,7 @@ Default: `true`
 
 Whether to generate CSS file.
 
-###cssDest
+### cssDest
 
 Type: `string`
 <br>
@@ -90,7 +90,7 @@ Default: `path.join(options.dest, options.fontName + '.css')`
 
 Path for generated CSS file.
 
-###cssTemplate
+### cssTemplate
 
 Type: `string`
 <br>
@@ -124,7 +124,7 @@ Paths of default templates are stored in the `webfontsGenerator.templates` objec
 	.icon { @include webfont-icon('icon'); }
 	```
 
-###cssFontsPath
+### cssFontsPath
 
 Type: `string`
 <br>
@@ -132,7 +132,7 @@ Default: `options.destCss`
 
 Fonts path used in CSS file.
 
-###html
+### html
 
 Type: `boolean`
 <br>
@@ -140,7 +140,7 @@ Default: `false`
 
 Whether to generate HTML preview.
 
-###htmlDest
+### htmlDest
 
 Type: `string`
 <br>
@@ -148,7 +148,7 @@ Default: `path.join(options.dest, options.fontName + '.html')`
 
 Path for generated HTML file.
 
-###htmlTemplate
+### htmlTemplate
 
 Type: `string`
 <br>
@@ -164,7 +164,7 @@ Template receives options from `options.templateOptions` along with the followin
 	(`cssFontsPath` is chaged to relative path from `htmlDest` to `dest`)
 * names `array.<string>` &ndash; Names of icons.
 
-###templateOptions
+### templateOptions
 
 Type: `object`
 
@@ -178,7 +178,7 @@ Default options are:
 }
 ```
 
-###types
+### types
 
 Type: `array<string>`
 <br>
@@ -187,7 +187,7 @@ Default: `['woff', 'eot']`
 Font file types to generate.
 Possible values: `svg, ttf, woff, eot`.
 
-###order
+### order
 
 Type: `array<string>`
 <br>
@@ -195,7 +195,7 @@ Default: `['eot', 'woff', 'ttf', 'svg']`
 
 Order of `src` values in `font-face` in CSS file.
 
-###rename
+### rename
 
 Type: `function(string) -> string`
 <br>
@@ -203,7 +203,7 @@ Default: basename of file
 
 Function that takes path of file and return name of icon.
 
-###startCodepoint
+### startCodepoint
 
 Type: `number`
 <br>
@@ -211,19 +211,19 @@ Default: `0xF101`
 
 Starting codepoint. Defaults to beginning of unicode private area.
 
-###codepoints
+### codepoints
 
 Type: `object`
 
 Specific codepoints for certain icons.
 Icons without codepoints will have codepoints incremented from `startCodepoint` skipping duplicates.
 
-###fontName, fixedWidth, centerHorizontally, normalize, fontHeight, round, descent
+### fontName, fixedWidth, centerHorizontally, normalize, fontHeight, round, descent
 
 Options that are passed directly to
 [svgicons2svgfont](https://github.com/nfroidure/svgicons2svgfont).
 
-#License
+## License
 
 Public domain, see the `LICENCE` file.
 
