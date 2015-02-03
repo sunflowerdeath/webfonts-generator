@@ -1,7 +1,18 @@
 var fs = require('fs')
 var path = require('path')
+var crypto = require('crypto')
 var _ = require('underscore')
 var handlebars = require('handlebars')
+
+/** Caclulates hash based on options and source SVG files */
+var calcHash = function(options) {
+	var hash = crypto.createHash('md5')
+	options.files.forEach(function(file) {
+		hash.update(fs.readFileSync(file, 'utf8'))
+	})
+	hash.update(JSON.stringify(options))
+	return hash.digest('hex')
+}
 
 var makeSrc = function(options) {
 	var templates = {
@@ -16,11 +27,12 @@ var makeSrc = function(options) {
 		return options.types.indexOf(type) !== -1
 	})
 
+	var hash = calcHash(options)
 	var src = _.map(orderedTypes, function(type) {
-		// TODO hashes
 		var fontPath = path.join(options.cssFontsPath, options.fontName + '.' + type)
+			.replace(/\\/g, '/')
 		return templates[type]({
-			path: fontPath,
+			path: fontPath + '?' + hash,
 			fontName: options.fontName
 		})
 	}).join(',\n')
