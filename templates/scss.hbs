@@ -15,9 +15,10 @@ $webfont-icons: map-merge($webfont-icons, (
 
 @if not mixin-exists('webfont-icon') {
 	@mixin webfont-icon($name) {
+		line-height: 1;
+
 		$icon: map-get($webfont-icons, $name);
 		&:before {
-			line-height: 1;
 			font-family: nth($icon, 1) !important;
 			font-style: normal;
 			font-weight: normal !important;

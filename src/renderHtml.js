@@ -14,7 +14,7 @@ var renderHtml = function(options) {
 	// have path to fonts that is relative to html file location.
 	var styles = renderCss(_.extend({}, options, {
 		cssFontPath: htmlFontsPath
-	}), path.join(__dirname, '../templates/css.hbs'))
+	}))
 
 	var ctx = _.extend({
 		names: options.names,
