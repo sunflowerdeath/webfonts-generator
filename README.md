@@ -44,9 +44,7 @@ Object with options. See the list of options.
 
 ### done
 
-Type: `function(error)`
-
-Function that is called when generation is complete.
+Type: `function(error, result)`
 
 ## List of options
 
@@ -222,6 +220,28 @@ Icons without codepoints will have codepoints incremented from `startCodepoint` 
 
 Options that are passed directly to
 [svgicons2svgfont](https://github.com/nfroidure/svgicons2svgfont).
+
+### writeFiles
+
+Type: `boolean`
+<br>
+Default: `true`
+
+It is possible to not create files and get generated fonts in object
+ to write them to files later.
+<br>
+Also results object will have function `generateCss([urls])`
+where `urls` is an object with future fonts urls.
+
+```js
+webfontsGenerator({
+  // options
+  writeFiles: false
+}, function(error, result) {
+  // result.eot, result.ttf, etc - generated fonts
+  // result.generateCss(urls) - function to generate css
+})
+```
 
 ## License
 
