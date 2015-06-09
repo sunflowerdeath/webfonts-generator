@@ -27,24 +27,28 @@ var generators = {
 			var svgOptions = _.pick(options,
 				'fontName', 'fontHeight', 'descent', 'normalize', 'round'
 			)
-
-			var icons = _.map(options.files, function(file, idx) {
-				var name = options.names[idx]
-				return {
-					name: name,
-					codepoint: options.codepoints[name],
-					stream: fs.createReadStream(file)
-				}
-			})
-
 			svgOptions.log = function(){}
-			svgicons2svgfont(icons, svgOptions)
+
+			var fontStream = svgicons2svgfont(svgOptions)
 				.on('data', function(data) {
 					font = Buffer.concat([font, data])
 				})
 				.on('end', function() {
 					done(null, font.toString())
 				})
+
+			_.each(options.files, function(file, idx) {
+				var glyph = fs.createReadStream(file)
+				var name = options.names[idx]
+				var unicode = String.fromCharCode(options.codepoints[name])
+				glyph.metadata = {
+					name: name,
+					unicode: [unicode]
+				}
+				fontStream.write(glyph)
+			})
+
+			fontStream.end()
 		}
 	},
 
