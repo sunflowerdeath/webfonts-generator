@@ -20,6 +20,7 @@ var DEFAULT_TEMPLATE_OPTIONS = {
 }
 
 var DEFAULT_OPTIONS = {
+	writeFiles: true,
 	fontName: 'iconfont',
 	css: true,
 	cssTemplate: TEMPLATES.css,
@@ -77,25 +78,37 @@ var webfont = function(options, done) {
 		}
 	})
 
-	function writeFile(content, dest) {
-		mkdirp.sync(path.dirname(dest))
-		fs.writeFileSync(dest, content)
-	}
-
 	// TODO output
 	generateFonts(options)
-		.then(function() {
-			if (options.css) {
-				var css = renderCss(options)
-				writeFile(css, options.cssDest)
+		.then(function(result) {
+			if (options.writeFiles) writeResult(result, options)
+
+			result.generateCss = function(urls) {
+				return renderCss(options, urls)
 			}
-			if (options.html) {
-				var html = renderHtml(options)
-				writeFile(html, options.htmlDest)
-			}
-			done()
+			done(null, result)
 		})
 		.catch(function(err) { done(err) })
+}
+
+function writeFile(content, dest) {
+	mkdirp.sync(path.dirname(dest))
+	fs.writeFileSync(dest, content)
+}
+
+function writeResult(fonts, options) {
+	_.each(fonts, function(content, type) {
+		var filepath = path.join(options.dest, options.fontName + '.' + type)
+		writeFile(content, filepath)
+	})
+	if (options.css) {
+		var css = renderCss(options)
+		writeFile(css, options.cssDest)
+	}
+	if (options.html) {
+		var html = renderHtml(options)
+		writeFile(html, options.htmlDest)
+	}
 }
 
 webfont.templates = TEMPLATES

@@ -1,8 +1,6 @@
 var fs = require('fs')
-var path = require('path')
 var _ = require('underscore')
 var Q = require('q')
-var mkdirp = require('mkdirp')
 
 var svgicons2svgfont = require('svgicons2svgfont')
 var svg2ttf = require('svg2ttf')
@@ -104,28 +102,15 @@ var generateFonts = function(options) {
 		return task
 	}
 
-	var writeTasks = []
-
-	/** Creates task that writes file to disk after it is generated. */
-	var makeWriteTask = function(genTask, type) {
-		var task = genTask.then(function(font) {
-			var filepath = path.join(options.dest, options.fontName + '.' + type)
-			return Q.nfcall(fs.writeFile, filepath, font)
-		})
-		writeTasks.push(task)
-		return task
-	}
-
-	mkdirp.sync(options.dest)
-
 	// Create all needed generate and write tasks.
 	for (var i in options.types) {
 		var type = options.types[i]
-		var genTask = makeGenTask(type)
-		makeWriteTask(genTask, type)
+		makeGenTask(type)
 	}
 
-	return Q.all(writeTasks)
+	return Q.all(_.values(genTasks)).then(function(results) {
+		return _.object(options.types, results)
+	})
 }
 
 module.exports = generateFonts

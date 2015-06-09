@@ -14,12 +14,22 @@ var calcHash = function(options) {
 	return hash.digest('hex')
 }
 
-var makeSrc = function(options) {
+var makeUrls = function(options) {
+	var hash = calcHash(options)
+	var urls = _.map(options.types, function(type) {
+		return path.join(options.cssFontsPath, options.fontName + '.' + type)
+			.replace(/\\/g, '/') + '?' + hash
+	})
+	return _.object(options.types, urls)
+}
+
+
+var makeSrc = function(options, urls) {
 	var templates = {
-		eot: _.template('url("<%= path %>?#iefix") format("embedded-opentype")'),
-		woff: _.template('url("<%= path %>") format("woff")'),
-		ttf: _.template('url("<%= path %>") format("truetype")'),
-		svg: _.template('url("<%= path %>#<%= fontName %>") format("svg")')
+		eot: _.template('url("<%= url %>?#iefix") format("embedded-opentype")'),
+		woff: _.template('url("<%= url %>") format("woff")'),
+		ttf: _.template('url("<%= url %>") format("truetype")'),
+		svg: _.template('url("<%= url %>#<%= fontName %>") format("svg")')
 	}
 
 	// Order used types according to 'options.order'.
@@ -27,12 +37,9 @@ var makeSrc = function(options) {
 		return options.types.indexOf(type) !== -1
 	})
 
-	var hash = calcHash(options)
 	var src = _.map(orderedTypes, function(type) {
-		var fontPath = path.join(options.cssFontsPath, options.fontName + '.' + type)
-			.replace(/\\/g, '/')
 		return templates[type]({
-			path: fontPath + '?' + hash,
+			url: urls[type],
 			fontName: options.fontName
 		})
 	}).join(',\n')
@@ -40,7 +47,7 @@ var makeSrc = function(options) {
 	return src
 }
 
-var makeCtx = function(options) {
+var makeCtx = function(options, urls) {
 	// Transform codepoints to hex strings
 	var codepoints = _.object(_.map(options.codepoints, function(codepoint, name) {
 		return [name, codepoint.toString(16)]
@@ -48,13 +55,14 @@ var makeCtx = function(options) {
 
 	return _.extend({
 		fontName: options.fontName,
-		src: makeSrc(options),
+		src: makeSrc(options, urls),
 		codepoints: codepoints
 	}, options.templateOptions)
 }
 
-var renderCss = function(options) {
-	var ctx = makeCtx(options)
+var renderCss = function(options, urls) {
+	if (typeof urls === 'undefined') urls = makeUrls(options)
+	var ctx = makeCtx(options, urls)
 	var source = fs.readFileSync(options.cssTemplate, 'utf8')
 	var template = handlebars.compile(source)
 	return template(ctx)

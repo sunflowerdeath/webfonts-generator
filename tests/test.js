@@ -54,6 +54,25 @@ describe('webfont', function() {
 		})
 	})
 
+	it('returns object with fonts and function generateCss()', function() {
+		webfontsGenerator(OPTIONS, function(err, result) {
+			assert(result.svg)
+			assert(result.ttf)
+
+			assert.equal(typeof result.generateCss, 'function')
+			var css = result.generateCss()
+			assert.equal(typeof css, 'string')
+		})
+	})
+
+	it('function generateCss can change urls', function() {
+		webfontsGenerator(OPTIONS, function(err, result) {
+			var urls = {svg: 'AAA', ttf: 'BBB', woff: 'CCC', eot: 'DDD'}
+			var css = result.generateCss(urls)
+			assert(css.indexOf('AAA') !== -1)
+		})
+	})
+
 	it('gives error when "dest" is undefined', function(done) {
 		var options = _.extend({}, OPTIONS, {dest: undefined})
 		webfontsGenerator(options, function(err) {
