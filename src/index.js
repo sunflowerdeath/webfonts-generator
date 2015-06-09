@@ -62,11 +62,14 @@ var webfont = function(options, done) {
 	// Generates codepoints starting from `options.startCodepoint`,
 	// skipping codepoints explicitly specified in `options.codepoints`
 	var currentCodepoint = options.startCodepoint
+	var codepointsValues = _.values(options.codepoints)
 	function getNextCodepoint() {
-		while (_.contains(options.codepoints, currentCodepoint)) {
+		while (_.contains(codepointsValues, currentCodepoint)) {
 			currentCodepoint++
 		}
-		return currentCodepoint
+		var res = currentCodepoint
+		currentCodepoint++
+		return res
 	}
 	_.each(options.names, function(name) {
 		if (!options.codepoints[name]) {
