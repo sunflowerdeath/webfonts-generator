@@ -5,6 +5,8 @@ var assert = require('assert')
 
 var sass = require('node-sass')
 var Q = require('q')
+var readChunk = require('read-chunk')
+var getFileType = require('file-type')
 
 var webfontsGenerator = require('../src/index')
 
@@ -16,7 +18,7 @@ describe('webfont', function() {
 		return path.join(SRC, file)
 	})
 
-	var TYPES = ['svg', 'ttf', 'woff', 'eot']
+	var TYPES = ['ttf', 'woff', 'eot', 'svg']
 	var FONT_NAME = 'fontName'
 
 	var OPTIONS = {
@@ -44,6 +46,13 @@ describe('webfont', function() {
 				var filepath = path.join(DEST, filename)
 				assert(destFiles.indexOf(filename) !== -1, type + ' file exists')
 				assert(fs.statSync(filepath).size > 0, type + ' file is not empty')
+
+				var DETECTABLE = ['ttf', 'woff']
+				if (_.contains(DETECTABLE, type)) {
+					var chunk = readChunk.sync(filepath, 0, 262)
+					var filetype = getFileType(chunk)
+					assert.equal(type, filetype && filetype.ext, 'ttf filetype is correct')
+				}
 			}
 
 			var cssFile = path.join(DEST, FONT_NAME + '.css')

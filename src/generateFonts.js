@@ -109,7 +109,7 @@ var generateFonts = function(options) {
 	}
 
 	return Q.all(_.values(genTasks)).then(function(results) {
-		return _.object(options.types, results)
+		return _.object(_.keys(genTasks), results)
 	})
 }
 
