@@ -1,3 +1,11 @@
+0.3.2
+
+* Add options 'formatOptions'.
+
+0.3.0
+
+* Add option 'writeFiles'.
+
 0.2.4 
 
 * Add hashes to font urls.
