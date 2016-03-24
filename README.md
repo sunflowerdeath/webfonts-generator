@@ -221,6 +221,30 @@ Icons without codepoints will have codepoints incremented from `startCodepoint` 
 Options that are passed directly to
 [svgicons2svgfont](https://github.com/nfroidure/svgicons2svgfont).
 
+### formatOptions
+
+Type: `object`
+
+Specific per format arbitrary options to pass to the generator
+
+format and matching generator:
+- `svg` - [svgicons2svgfont](https://github.com/nfroidure/svgicons2svgfont).
+- `ttf` - [svg2ttf](https://github.com/fontello/svg2ttf).
+- `woff` - [ttf2woff](https://github.com/fontello/ttf2woff).
+- `eot` - [ttf2eot](https://github.com/fontello/ttf2eot).
+
+```js
+webfontsGenerator({
+  // options
+  formatOptions: {
+  	// options to pass specifically to the ttf generator
+  	ttf: {
+  		ts: 1451512800000
+  	}
+  }
+}, function(error, result) {})
+```
+
 ### writeFiles
 
 Type: `boolean`
