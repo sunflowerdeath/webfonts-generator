@@ -25,6 +25,11 @@ var generators = {
 			var svgOptions = _.pick(options,
 				'fontName', 'fontHeight', 'descent', 'normalize', 'round'
 			)
+		
+			if (options.formatOptions['ttf']) {
+				svgOptions = _.extend(svgOptions, options.formatOptions['ttf'])
+			}
+			
 			svgOptions.log = function(){}
 
 			var fontStream = svgicons2svgfont(svgOptions)
@@ -53,7 +58,8 @@ var generators = {
 	ttf: {
 		deps: ['svg'],
 		fn: function(options, svgFont, done) {
-			var font = svg2ttf(svgFont)
+			var formatOptions = options.formatOptions['ttf'];
+			var font = svg2ttf(svgFont, formatOptions)
 			font = new Buffer(font.buffer)
 			done(null, font)
 		}
@@ -62,7 +68,8 @@ var generators = {
 	woff: {
 		deps: ['ttf'],
 		fn: function(options, ttfFont, done) {
-			var font = ttf2woff(new Uint8Array(ttfFont))
+			var formatOptions = options.formatOptions['woff'];
+			var font = ttf2woff(new Uint8Array(ttfFont), formatOptions)
 			font = new Buffer(font.buffer)
 			done(null, font)
 		}
@@ -71,7 +78,8 @@ var generators = {
 	eot: {
 		deps: ['ttf'],
 		fn: function(options, ttfFont, done) {
-			var font = ttf2eot(new Uint8Array(ttfFont))
+			var formatOptions = options.formatOptions['eot'];
+			var font = ttf2eot(new Uint8Array(ttfFont), formatOptions)
 			font = new Buffer(font.buffer)
 			done(null, font)
 		}
