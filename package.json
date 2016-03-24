@@ -28,6 +28,7 @@
   "dependencies": {
     "handlebars": "^2.0.0",
     "mkdirp": "^0.5.0",
+    "node-sass": "^3.4.2",
     "q": "^1.1.2",
     "svg2ttf": "^1.2.0",
     "svgicons2svgfont": "^2.0.0",
@@ -38,7 +39,6 @@
   "devDependencies": {
     "file-type": "^2.7.0",
     "mocha": "^2.0.1",
-    "node-sass": "^2.0.0-beta",
     "read-chunk": "^1.0.1"
   }
 }

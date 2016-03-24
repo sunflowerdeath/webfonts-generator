@@ -190,7 +190,7 @@ describe('webfont', function() {
 				var rendered = sass.renderSync({
 					file: TEST_SCSS_SINGLE
 				})
-				var css = rendered.css
+				var css = rendered.css.toString()
 				assert(css.indexOf(FONT_NAME) !== -1)
 				done(null)
 			})
@@ -220,7 +220,7 @@ describe('webfont', function() {
 				var rendered = sass.renderSync({
 					file: TEST_SCSS_MULTIPLE
 				})
-				var css = rendered.css
+				var css = rendered.css.toString()
 				assert(css.indexOf(FONT_NAME) !== -1)
 				assert(css.indexOf(FONT_NAME_2) !== -1)
 			})
