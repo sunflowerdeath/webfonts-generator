@@ -32,6 +32,7 @@ var DEFAULT_OPTIONS = {
 	rename: function(file) {
 		return path.basename(file, path.extname(file))
 	},
+	formatOptions: {},
 	/**
 	 * Unicode Private Use Area start.
 	 * http://en.wikipedia.org/wiki/Private_Use_(Unicode)
