@@ -3,6 +3,7 @@ var path = require('path')
 var crypto = require('crypto')
 var _ = require('underscore')
 var handlebars = require('handlebars')
+var urlJoin = require('url-join')
 
 /** Caclulates hash based on options and source SVG files */
 var calcHash = function(options) {
@@ -16,9 +17,10 @@ var calcHash = function(options) {
 
 var makeUrls = function(options) {
 	var hash = calcHash(options)
+	var baseUrl = options.cssFontsUrl && options.cssFontsUrl.replace(/\\/g, '/')
 	var urls = _.map(options.types, function(type) {
-		return path.join(options.cssFontsPath, options.fontName + '.' + type)
-			.replace(/\\/g, '/') + '?' + hash
+		var fontName = options.fontName + '.' + type + '?' + hash
+		return baseUrl ? urlJoin(baseUrl, fontName) : fontName
 	})
 	return _.object(options.types, urls)
 }

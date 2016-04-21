@@ -1,3 +1,12 @@
+0.3.4
+
+* Fix support for URLs to fonts in style files (#10).
+	Option 'cssFontsPath' is deprecated. New option is 'cssFontsUrl'.
+
+0.3.3
+
+* Update deps
+
 0.3.2
 
 * Add options 'formatOptions'.

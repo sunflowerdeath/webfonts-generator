@@ -24,7 +24,6 @@ var DEFAULT_OPTIONS = {
 	fontName: 'iconfont',
 	css: true,
 	cssTemplate: TEMPLATES.css,
-	cssFontsPath: '',
 	html: false,
 	htmlTemplate: TEMPLATES.html,
 	types: ['eot', 'woff'],
@@ -42,6 +41,11 @@ var DEFAULT_OPTIONS = {
 }
 
 var webfont = function(options, done) {
+	if (options.cssFontsPath) {
+		console.log('Option "cssFontsPath" is deprecated. Use "cssFontsUrl" instead.')
+		options.cssFontsUrl = options.cssFontsPath
+	}
+
 	options = _.extend({}, DEFAULT_OPTIONS, options)
 
 	if (options.dest === undefined) return done(new Error('"options.dest" is undefined.'))
