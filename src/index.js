@@ -15,7 +15,7 @@ var TEMPLATES = {
 }
 
 var DEFAULT_TEMPLATE_OPTIONS = {
-	baseClass: 'icon',
+	baseSelector: '.icon',
 	classPrefix: 'icon-'
 }
 

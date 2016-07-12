@@ -9,7 +9,7 @@ Features:
 
 * Supported font formats: WOFF, EOT, TTF and SVG.
 * Supported browsers: IE8+.
-* Generates CSS files and HTML preview, allows to use custom templates. 
+* Generates CSS files and HTML preview, allows to use custom templates.
 
 ## Install
 
@@ -172,7 +172,7 @@ Default options are:
 ```js
 {
 	classPrefix: 'icon-',
-	baseClass: 'icon'
+	baseSelector: '.icon'
 }
 ```
 
