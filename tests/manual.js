@@ -12,7 +12,7 @@ var OPTIONS = {
 	dest: path.join(__dirname, '..', 'temp'),
 	files: FILES,
 	fontName: 'fontName',
-	types: ['svg', 'ttf', 'woff', 'eot'],
+	types: ['svg', 'ttf', 'woff', 'woff2', 'eot'],
 	html:  true
 }
 
