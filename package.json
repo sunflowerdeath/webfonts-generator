@@ -18,7 +18,8 @@
     "webfont",
     "svg",
     "ttf",
-    "woff"
+    "woff",
+    "woff2"
   ],
   "author": "sunflowerdeath",
   "license": "Unlicense",
