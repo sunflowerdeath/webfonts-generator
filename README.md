@@ -233,7 +233,7 @@ Specific per format arbitrary options to pass to the generator
 format and matching generator:
 - `svg` - [svgicons2svgfont](https://github.com/nfroidure/svgicons2svgfont).
 - `ttf` - [svg2ttf](https://github.com/fontello/svg2ttf).
-- `woff2` - [ttf2woff2]https://github.com/nfroidure/ttf2woff2).
+- `woff2` - [ttf2woff2](https://github.com/nfroidure/ttf2woff2).
 - `woff` - [ttf2woff](https://github.com/fontello/ttf2woff).
 - `eot` - [ttf2eot](https://github.com/fontello/ttf2eot).
 
