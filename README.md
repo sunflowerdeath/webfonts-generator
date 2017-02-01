@@ -175,7 +175,7 @@ Default options are:
 ```js
 {
 	classPrefix: 'icon-',
-	baseClass: 'icon'
+	baseSelector: '.icon'
 }
 ```
 
