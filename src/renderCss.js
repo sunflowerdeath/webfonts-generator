@@ -29,6 +29,7 @@ var makeUrls = function(options) {
 var makeSrc = function(options, urls) {
 	var templates = {
 		eot: _.template('url("<%= url %>?#iefix") format("embedded-opentype")'),
+		woff2: _.template('url("<%= url %>") format("woff2")'),
 		woff: _.template('url("<%= url %>") format("woff")'),
 		ttf: _.template('url("<%= url %>") format("truetype")'),
 		svg: _.template('url("<%= url %>#<%= fontName %>") format("svg")')

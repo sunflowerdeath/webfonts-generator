@@ -18,7 +18,7 @@ describe('webfont', function() {
 		return path.join(SRC, file)
 	})
 
-	var TYPES = ['ttf', 'woff', 'eot', 'svg']
+	var TYPES = ['ttf', 'woff', 'woff2', 'eot', 'svg']
 	var FONT_NAME = 'fontName'
 
 	var OPTIONS = {
@@ -47,7 +47,7 @@ describe('webfont', function() {
 				assert(destFiles.indexOf(filename) !== -1, type + ' file exists')
 				assert(fs.statSync(filepath).size > 0, type + ' file is not empty')
 
-				var DETECTABLE = ['ttf', 'woff']
+				var DETECTABLE = ['ttf', 'woff', 'woff2', 'eot']
 				if (_.contains(DETECTABLE, type)) {
 					var chunk = readChunk.sync(filepath, 0, 262)
 					var filetype = getFileType(chunk)
@@ -56,11 +56,11 @@ describe('webfont', function() {
 			}
 
 			var cssFile = path.join(DEST, FONT_NAME + '.css')
-			assert(fs.existsSync(cssFile), 'CSS file exists') 
+			assert(fs.existsSync(cssFile), 'CSS file exists')
 			assert(fs.statSync(cssFile).size > 0, 'CSS file is not empty')
 
 			var htmlFile = path.join(DEST, FONT_NAME + '.html')
-			assert(!fs.existsSync(htmlFile), 'HTML file does not exists by default') 
+			assert(!fs.existsSync(htmlFile), 'HTML file does not exists by default')
 
 			done(null)
 		})
@@ -104,7 +104,7 @@ describe('webfont', function() {
 	it('uses codepoints and startCodepoint', function(done) {
 		var START_CODEPOINT = 0x40
 		var CODEPOINTS = {
-			close: 0xFF 
+			close: 0xFF
 		}
 		var options = _.extend({}, OPTIONS, {
 			codepoints: CODEPOINTS,
@@ -133,7 +133,7 @@ describe('webfont', function() {
 			if (err) return done(err)
 
 			var htmlFile = path.join(DEST, FONT_NAME + '.html')
-			assert(fs.existsSync(htmlFile), 'HTML file exists') 
+			assert(fs.existsSync(htmlFile), 'HTML file exists')
 			assert(fs.statSync(htmlFile).size > 0, 'HTML file is not empty')
 
 			done(null)
@@ -195,7 +195,7 @@ describe('webfont', function() {
 				done(null)
 			})
 		})
-		
+
 		it('multiple scss mixins can be used together', function() {
 			var FONT_NAME_2 = FONT_NAME + '2'
 			var DEST_CSS = path.join(DEST, FONT_NAME + '.scss')
