@@ -21,12 +21,12 @@
     "woff"
   ],
   "author": "sunflowerdeath",
-  "license": "public domain",
+  "license": "Unlicense",
   "bugs": {
     "url": "https://github.com/sunflowerdeath/webfonts-generator/issues"
   },
   "dependencies": {
-    "handlebars": "^2.0.0",
+    "handlebars": "^4.0.5",
     "mkdirp": "^0.5.0",
     "q": "^1.1.2",
     "svg2ttf": "^4.0.0",
@@ -37,9 +37,9 @@
     "url-join": "^1.1.0"
   },
   "devDependencies": {
-    "file-type": "^2.7.0",
-    "mocha": "^2.0.1",
+    "file-type": "^3.9.0",
+    "mocha": "^3.1.2",
     "node-sass": "^3.4.2",
-    "read-chunk": "^1.0.1"
+    "read-chunk": "^2.0.0"
   }
 }
