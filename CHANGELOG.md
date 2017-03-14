@@ -1,3 +1,9 @@
+0.4.0
+
+* Add woff2 support.
+* Update dependencies.
+* Deprecate baseClass in favor of a more powerful baseSelector.
+
 0.3.4
 
 * Fix support for URLs to fonts in style files (#10).
@@ -15,7 +21,7 @@
 
 * Add option 'writeFiles'.
 
-0.2.4 
+0.2.4
 
 * Add hashes to font urls.
 * Fix backslashes in urls on Windows.

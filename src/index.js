@@ -15,7 +15,7 @@ var TEMPLATES = {
 }
 
 var DEFAULT_TEMPLATE_OPTIONS = {
-	baseClass: 'icon',
+	baseSelector: '.icon',
 	classPrefix: 'icon-'
 }
 
@@ -26,8 +26,8 @@ var DEFAULT_OPTIONS = {
 	cssTemplate: TEMPLATES.css,
 	html: false,
 	htmlTemplate: TEMPLATES.html,
-	types: ['eot', 'woff'],
-	order: ['eot', 'woff', 'ttf', 'svg'],
+	types: ['eot', 'woff', 'woff2'],
+	order: ['eot', 'woff2', 'woff', 'ttf', 'svg'],
 	rename: function(file) {
 		return path.basename(file, path.extname(file))
 	},
@@ -61,6 +61,17 @@ var webfont = function(options, done) {
 	}
 	if (options.htmlDest === undefined) {
 		options.htmlDest = path.join(options.dest, options.fontName + '.html')
+	}
+
+	// Warn about using deprecated template options.
+	for(var key in options.templateOptions) {
+		var value = options.templateOptions[key];
+		if(key === "baseClass") {
+			console.warn("[webfont-generator] Using deprecated templateOptions 'baseClass'. Use 'baseSelector' instead.");
+			options.templateOptions.baseSelector = "." + value;
+			delete options.templateOptions.baseClass;
+			break;
+		}
 	}
 
 	options.templateOptions = _.extend({}, DEFAULT_TEMPLATE_OPTIONS, options.templateOptions)

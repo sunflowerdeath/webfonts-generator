@@ -7,30 +7,33 @@ Generator of webfonts from SVG icons.
 
 Features:
 
-* Supported font formats: WOFF, EOT, TTF and SVG.
+* Supported font formats: WOFF2, WOFF, EOT, TTF and SVG.
 * Supported browsers: IE8+.
-* Generates CSS files and HTML preview, allows to use custom templates. 
+* Generates CSS files and HTML preview, allows to use custom templates.
 
 ## Install
 
 ```
-npm install webfonts-generator
+npm install --save-dev webfonts-generator
 ```
 
 ## Usage
 
 ```js
-var webfontsGenerator = require('webfonts-generator')
+const webfontsGenerator = require('webfonts-generator');
 
 webfontsGenerator({
   files: [
     'src/dropdown.svg',
-    'src/close.svg'
+    'src/close.svg',
   ],
-  dest: 'dest/'
+  dest: 'dest/',
 }, function(error) {
-  if (error) console.log('Fail!', error)
-  else console.log('Done!')
+  if (error) {
+    console.log('Fail!', error);
+  } else {
+    console.log('Done!');
+  }
 })
 ```
 
@@ -172,7 +175,7 @@ Default options are:
 ```js
 {
 	classPrefix: 'icon-',
-	baseClass: 'icon'
+	baseSelector: '.icon'
 }
 ```
 
@@ -180,16 +183,16 @@ Default options are:
 
 Type: `array<string>`
 <br>
-Default: `['woff', 'eot']`
+Default: `['woff2', 'woff', 'eot']`
 
 Font file types to generate.
-Possible values: `svg, ttf, woff, eot`.
+Possible values: `svg, ttf, woff, woff2, eot`.
 
 ### order
 
 Type: `array<string>`
 <br>
-Default: `['eot', 'woff', 'ttf', 'svg']`
+Default: `['eot', 'woff2', 'woff', 'ttf', 'svg']`
 
 Order of `src` values in `font-face` in CSS file.
 
@@ -230,6 +233,7 @@ Specific per format arbitrary options to pass to the generator
 format and matching generator:
 - `svg` - [svgicons2svgfont](https://github.com/nfroidure/svgicons2svgfont).
 - `ttf` - [svg2ttf](https://github.com/fontello/svg2ttf).
+- `woff2` - [ttf2woff2](https://github.com/nfroidure/ttf2woff2).
 - `woff` - [ttf2woff](https://github.com/fontello/ttf2woff).
 - `eot` - [ttf2eot](https://github.com/fontello/ttf2eot).
 
@@ -270,4 +274,3 @@ webfontsGenerator({
 ## License
 
 Public domain, see the `LICENCE` file.
-

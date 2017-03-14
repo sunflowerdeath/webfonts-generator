@@ -5,6 +5,7 @@ var Q = require('q')
 var svgicons2svgfont = require('svgicons2svgfont')
 var svg2ttf = require('svg2ttf')
 var ttf2woff = require('ttf2woff')
+var ttf2woff2 = require('ttf2woff2')
 var ttf2eot = require('ttf2eot')
 
 /**
@@ -25,11 +26,11 @@ var generators = {
 			var svgOptions = _.pick(options,
 				'fontName', 'fontHeight', 'descent', 'normalize', 'round'
 			)
-		
+
 			if (options.formatOptions['svg']) {
 				svgOptions = _.extend(svgOptions, options.formatOptions['svg'])
 			}
-			
+
 			svgOptions.log = function(){}
 
 			var fontStream = svgicons2svgfont(svgOptions)
@@ -72,6 +73,15 @@ var generators = {
 		deps: ['ttf'],
 		fn: function(options, ttfFont, done) {
 			var font = ttf2woff(new Uint8Array(ttfFont), options.formatOptions['woff'])
+			font = new Buffer(font.buffer)
+			done(null, font)
+		}
+	},
+
+	woff2: {
+		deps: ['ttf'],
+		fn: function(options, ttfFont, done) {
+			var font = ttf2woff2(new Uint8Array(ttfFont), options.formatOptions['woff2'])
 			font = new Buffer(font.buffer)
 			done(null, font)
 		}
