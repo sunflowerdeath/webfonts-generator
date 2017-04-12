@@ -219,7 +219,7 @@ Type: `object`
 Specific codepoints for certain icons.
 Icons without codepoints will have codepoints incremented from `startCodepoint` skipping duplicates.
 
-### fontName, fixedWidth, centerHorizontally, normalize, fontHeight, round, descent
+### fontName, normalize, fontHeight, round, descent
 
 Options that are passed directly to
 [svgicons2svgfont](https://github.com/nfroidure/svgicons2svgfont).
