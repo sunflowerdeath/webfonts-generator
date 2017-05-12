@@ -20,7 +20,7 @@
 			text-align: center;
 		}
 
-		.icon {
+		{{baseSelector}} {
 			display: inline-block;
 			font-size: 16px;
 		}
@@ -33,7 +33,7 @@
 	{{#each names}}
 	<div class="preview">
 		<span class="preview__icon">
-			<span class="{{../baseClass}} {{../classPrefix}}{{this}}"></span>
+			<span class="{{removePeriods ../baseSelector}} {{../classPrefix}}{{this}}"></span>
 		</span>
 		<span>{{this}}</span>
 	</div>
